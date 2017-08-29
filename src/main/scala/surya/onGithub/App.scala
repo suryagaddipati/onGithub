@@ -19,8 +19,8 @@ object Main {
 
   def main(args: Array[String]): Unit = {
     val dockerClient = DefaultDockerClient.builder.uri("http://localhost:2376").build
-          val mongoClient: MongoClient = MongoClient()
-          val mongoDB: MongoDatabase = mongoClient.getDatabase("meow2")
+    val mongoClient: MongoClient = MongoClient()
+    val mongoDB: MongoDatabase = mongoClient.getDatabase("meow2")
 
     val dependencies = Services(dockerClient,mongoDB)
     DI.instance.get(as).initialize(dependencies)

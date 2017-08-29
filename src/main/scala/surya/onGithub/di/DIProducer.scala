@@ -3,13 +3,7 @@ package surya.onGithub.di
 import akka.actor.{Actor, IndirectActorProducer}
 import surya.onGithub.actors.{DockerContainerLogSaver, DockerContainerLauncher}
 
-class DIProducer(dependencies: Services, actorType: Class[_]) extends IndirectActorProducer {
-  val LAUNCHER = classOf[DockerContainerLauncher]
-  val SAVER = classOf[DockerContainerLogSaver]
+class DIProducer(services: Services, actorType: Class[Actor]) extends IndirectActorProducer {
   override def actorClass = classOf[Actor]
-  override def produce =  actorType match {
-    case LAUNCHER => new DockerContainerLauncher(dependencies.dockerClient)
-    case SAVER => new DockerContainerLogSaver(dependencies.dockerClient,dependencies.mongoDB)
-  }
-
+  override def produce = actorType.getConstructor(classOf[Services]).newInstance(services)
 }
