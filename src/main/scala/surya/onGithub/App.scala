@@ -4,7 +4,8 @@ import akka.actor.ActorSystem
 import akka.stream._
 import com.spotify.docker.client.DefaultDockerClient
 import org.mongodb.scala._
-import surya.onGithub.actors.DockerContainerLauncher
+import surya.onGithub.actors.github.HookShot
+import surya.onGithub.actors.{DockerContainerLauncher, MainRunner}
 import surya.onGithub.di.{DI, Services}
 
 
@@ -21,8 +22,8 @@ object Main {
 
     val dependencies = Services(dockerClient,mongoDB)
     DI.instance.get(as).initialize(dependencies)
-    val dockerLauncherActor = as.actorOf(DI.instance.get(as).props(classOf[DockerContainerLauncher]))
-    dockerLauncherActor  ! "busybox"
+    val mainRunner = as.actorOf(DI.instance.get(as).props(classOf[MainRunner]))
+    mainRunner  ! HookShot("id","push","payload-meow")
 
   }
 
