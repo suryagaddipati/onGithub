@@ -7,9 +7,6 @@ import org.mongodb.scala._
 import surya.onGithub.actors.DockerContainerLauncher
 import surya.onGithub.di.{DI, Services}
 
-import scala.language.postfixOps
-
-
 
 object Main {
   implicit val as = ActorSystem()
@@ -26,7 +23,6 @@ object Main {
     DI.instance.get(as).initialize(dependencies)
     val dockerLauncherActor = as.actorOf(DI.instance.get(as).props(classOf[DockerContainerLauncher]))
     dockerLauncherActor  ! "busybox"
-
 
   }
 
