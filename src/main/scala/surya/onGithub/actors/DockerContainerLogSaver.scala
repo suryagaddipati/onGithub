@@ -1,12 +1,9 @@
 package surya.onGithub.actors
 
 import java.io.{PipedInputStream, PipedOutputStream}
-import java.util.concurrent.{ExecutorService, Executors}
 
 import akka.actor.Actor
-import com.spotify.docker.client.DockerClient
 import com.spotify.docker.client.DockerClient.AttachParameter
-import org.mongodb.scala.MongoDatabase
 import org.mongodb.scala.gridfs.helpers.AsyncStreamHelper._
 import org.mongodb.scala.gridfs.{AsyncInputStream, GridFSBucket, GridFSUploadOptions}
 import surya.onGithub.di.Services

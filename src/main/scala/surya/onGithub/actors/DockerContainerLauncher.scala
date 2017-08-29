@@ -1,12 +1,11 @@
 package surya.onGithub.actors
 
-import akka.actor.Actor
 import com.spotify.docker.client.messages.ContainerConfig
 import surya.onGithub.di.{DI, Services}
 
 import scala.language.postfixOps
 
-class DockerContainerLauncher(services: Services) extends Actor{
+class DockerContainerLauncher(services: Services) extends BaseActor{
   override def receive: Receive = {
     case image:String => {
 
@@ -14,9 +13,9 @@ class DockerContainerLauncher(services: Services) extends Actor{
       val creation = services.dockerClient.createContainer(config)
       val id = creation.id
       services.dockerClient.startContainer(id)
-      val dockerContainerLogSaver = context.system.actorOf(DI.instance.get(context.system).props(classOf[DockerContainerLogSaver]))
+      val dockerContainerLogSaver = getActor(classOf[DockerContainerLogSaver])
       dockerContainerLogSaver  ! id
-
     }
   }
 }
+
