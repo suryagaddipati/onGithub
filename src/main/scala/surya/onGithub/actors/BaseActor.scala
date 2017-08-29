@@ -4,7 +4,5 @@ import akka.actor.Actor
 import surya.onGithub.di.DI
 
 abstract class BaseActor extends Actor{
-  def getActor(m: Class[DockerContainerLogSaver]) = {
-    context.system.actorOf(DI.instance.get(context.system).props(m))
-  }
+  def getActor[T <: Actor](m: Class[T]) =  context.system.actorOf(DI.instance.get(context.system).props(m))
 }
