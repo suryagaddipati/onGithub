@@ -12,10 +12,10 @@ class MainRunner(services: Services) extends BaseActor{
   override def receive: Receive = {
     case hookShot:HookShot => {
       val githubActor = getActor(classOf[GithubActor])
-      implicit val timeout:Timeout = 5 seconds
-      val dockerImage = githubActor ? hookShot
-      dockerImage.m
-      print(dockerImage)
+      githubActor ! hookShot
+    }
+    case image:String => {
+      getActor(classOf[DockerContainerLauncher]) ! image
     }
   }
 }

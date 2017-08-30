@@ -6,7 +6,7 @@ import surya.onGithub.di.Services
 class GithubActor(services: Services) extends Actor{
   override def receive: Receive = {
     case hookShot:HookShot => {
-      sender()! Some("busybox")
+      sender()! "busybox"
 
     }
   }
