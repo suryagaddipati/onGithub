@@ -21,7 +21,7 @@ libraryDependencies ++= Seq(
   "org.mongodb.scala" %% "mongo-scala-driver" % "2.1.0",
   "org.scalaz" %% "scalaz-core" % "7.1.0",
   "com.typesafe.akka" %% "akka-actor" % "2.5.4",
-"com.trilead" % "trilead-ssh2" % "1.0.0-build221"
+  "net.caoticode.buhtig" %% "buhtig" % "0.3.1"
 )
 
 scalacOptions ++= Seq("-feature")
