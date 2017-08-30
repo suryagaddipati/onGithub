@@ -19,7 +19,7 @@ class GithubActor(services: Services) extends Actor{
     }
   }
 }
-case  class HookShot(id: String, event:String,payload: String){
+case  class HookShot(hookId: String, event:String,payload: String){
   def repo:String = "pulihora"
   def org:String = "suryagaddipati"
 }
