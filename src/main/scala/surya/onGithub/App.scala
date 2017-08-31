@@ -77,6 +77,6 @@ object WebServer  extends HttpApp with App {
 
 
 
-  startServer(config.httpHost, config.httpPort)
+  startServer(config.httpHost, config.httpPort,as)
 }
 
