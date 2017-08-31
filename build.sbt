@@ -5,7 +5,7 @@ version := "0.1.0 "
 scalaVersion := "2.11.5"
 
 val akkaVersion = "2.3.7"
-lazy val akkaHttpVersion = "10.0.7"
+lazy val akkaHttpVersion = "10.0.10"
 
 libraryDependencies ++= Seq(
   "com.typesafe.akka" %% "akka-actor" % akkaVersion,
