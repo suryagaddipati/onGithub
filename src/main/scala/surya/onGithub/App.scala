@@ -1,10 +1,8 @@
 package surya.onGithub
 
 import akka.actor.ActorSystem
-import akka.http.scaladsl.model.{ContentTypes, HttpEntity}
 import akka.http.scaladsl.server.{HttpApp, Route}
 import akka.stream._
-import akka.stream.scaladsl.Source
 import com.spotify.docker.client.DefaultDockerClient
 import org.mongodb.scala._
 import surya.onGithub.actors.MainRunner
@@ -36,7 +34,6 @@ object WebServer  extends HttpApp with App {
     } ~
       path("github-webhook") {
         post {
-
           (formField('payload) &  headerValueByName("X-GitHub-Delivery") & headerValueByName("X-GitHub-Event") ) { (payload,hookId,event) =>
             val mainRunner = as.actorOf(DI.instance.get(as).props(classOf[MainRunner]))
             mainRunner  ! HookShot(hookId,event,payload)
