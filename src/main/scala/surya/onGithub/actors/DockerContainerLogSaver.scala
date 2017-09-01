@@ -12,28 +12,25 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 class DockerContainerLogSaver(services: Services)extends Actor{
   override def receive: Receive ={
-    case containerId:String => {
+    case launchedContainer:LaunchedContainer => {
 
       val mongoStream = new PipedInputStream()
       val dockerOuputStream = new PipedOutputStream(mongoStream)
       Future{
         services.dockerClient
-          .attachContainer(containerId,
+          .attachContainer(launchedContainer.containerId,
             AttachParameter.LOGS, AttachParameter.STDOUT,
             AttachParameter.STDERR, AttachParameter.STREAM)
           .attach(dockerOuputStream,dockerOuputStream )
       }
 
-
-
-
       val gridFSBucket = GridFSBucket(services.mongoDB)
       val streamToUploadFrom: AsyncInputStream = toAsyncInputStream(mongoStream)
 
-      val options: GridFSUploadOptions = new GridFSUploadOptions().chunkSizeBytes(10)
+      val options: GridFSUploadOptions = new GridFSUploadOptions()//.chunkSizeBytes(10)
 
 
-      gridFSBucket.uploadFromStream(containerId, streamToUploadFrom,options).head()
+      gridFSBucket.uploadFromStream(launchedContainer.hookId, streamToUploadFrom,options).head()
       streamToUploadFrom.close()
     }
   }

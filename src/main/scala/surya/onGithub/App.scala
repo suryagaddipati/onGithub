@@ -12,8 +12,8 @@ import akka.stream.scaladsl.StreamConverters
 import com.spotify.docker.client.DefaultDockerClient
 import org.mongodb.scala._
 import org.mongodb.scala.gridfs.GridFSBucket
-import surya.onGithub.actors.MainRunner
-import surya.onGithub.actors.github.{BhutigAPI, HookShot}
+import surya.onGithub.actors.{HookShot, MainRunner}
+import surya.onGithub.actors.github.BhutigAPI
 import surya.onGithub.di.{DI, Services}
 
 
@@ -53,7 +53,7 @@ object WebServer  extends HttpApp with App {
           }
         }
       }~
-      path("streaming-text") {
+      path("log" / Segment) { hookId =>
         get {
           val dstByteBuffer: ByteBuffer = ByteBuffer.allocate(1024*1024)
 
@@ -61,7 +61,7 @@ object WebServer  extends HttpApp with App {
 
           val mongoStream = new PipedOutputStream()
           val mongoStream1 = new PipedInputStream(mongoStream)
-          gridFSBucket.downloadToStream("95b53f763081cd18e90ef39dbb742507fdc65e0eacb394551ba25ed2067fab10",toAsyncOutputStream(mongoStream)).head()
+          gridFSBucket.downloadToStream(hookId,toAsyncOutputStream(mongoStream)).head()
 
 
           val mongoStreamSource = StreamConverters.fromInputStream(() => mongoStream1,5000)
