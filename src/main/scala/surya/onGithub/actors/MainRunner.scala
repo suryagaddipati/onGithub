@@ -29,7 +29,7 @@ case  class HookShot(hookId: String, event:String, payload: String){
     case "push" => (payloadJson \ "repository" \"owner" \ "name").values.asInstanceOf[String]
   }
 }
-case class OnGithubDockerImage(hookId:String, image: String)
+case class OnGithubDockerImage(hookId:String,event:String, payload: String, image: String )
 
 case class LaunchedContainer( hookId:String, containerId: String)
 

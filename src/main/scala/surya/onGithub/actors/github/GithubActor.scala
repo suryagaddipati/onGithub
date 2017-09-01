@@ -15,7 +15,7 @@ class GithubActor(services: Services) extends Actor{
       val onGithubFile = (services.githubClient / "repos" / hookShot.org /hookShot.repo ).contents.onGithub.get[JSON]
       val encodedContents = (onGithubFile \\ "content").values.asInstanceOf[String]
       val image = new String(BaseEncoding.base64().decode(encodedContents.trim.replaceAll("\\n","")))
-      sender()! OnGithubDockerImage(hookShot.hookId, image.trim.replaceAll("\\n",""))
+      sender()! OnGithubDockerImage(hookShot.hookId, hookShot.event,hookShot.payload, image.trim.replaceAll("\\n",""))
       self ! PoisonPill
     }
   }
